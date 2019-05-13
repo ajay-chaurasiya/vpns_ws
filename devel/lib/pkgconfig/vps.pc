@@ -1,0 +1,8 @@
+prefix=/home/ajay/vpns_ws/devel
+
+Name: vps
+Description: Description of vps
+Version: 0.0.0
+Cflags: -I/home/ajay/vpns_ws/devel/include
+Libs: -L/home/ajay/vpns_ws/devel/lib 
+Requires: message_runtime

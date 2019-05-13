@@ -1,0 +1,9 @@
+int32 oldX
+int32 oldY
+int32 newX
+int32 newY
+int32 oldAngle
+int32 newAngle
+int32 destX
+int32 destY
+string text

@@ -1,0 +1,8 @@
+prefix=/home/ajay/vpns_ws/install
+
+Name: vpns
+Description: Description of vpns
+Version: 0.0.0
+Cflags: -I/home/ajay/vpns_ws/install/include
+Libs: -L/home/ajay/vpns_ws/install/lib 
+Requires: message_runtime

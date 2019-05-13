@@ -1,0 +1,2 @@
+vps
+-DCATKIN_DEVEL_PREFIX=/home/ajay/vpns_ws/devel -DCMAKE_INSTALL_PREFIX=/home/ajay/vpns_ws/install -G Unix Makefiles

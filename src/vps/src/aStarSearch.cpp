@@ -33,8 +33,11 @@ bool aStarSearch::isUnBlocked(int grid[][COL], int row, int col)
 
 // A Utility Function to check whether destination cell has
 // been reached or not
-bool aStarSearch::isDestination(int row, int col, Pair dest)
+bool aStarSearch::isDestination(int row, int col, Pair dest, int &xo, int &yo, int &xn, int &yn, int &dx, int &dy, int &ao, ros::Publisher &pub)
 {
+    xo = dx = dest.first;
+    yo = dy = dest.second;
+    navigation::positionDetails(xo, yo, xn, yn, dx, dy, ao, pub);
     return (row == dest.first && col == dest.second);
 }
 
@@ -47,100 +50,100 @@ double aStarSearch::calculateHValue(int row, int col, aStarSearch::Pair dest)
 }
 
 void aStarSearch::north(int &i, int &j, double &gNew, double &hNew, double &fNew,
-                        Pair &dest, cell cellDetails[][COL], set<pPair> &openList, bool closedList[][COL], int grid[][COL], bool &foundDest, cv::Mat &map, cv::Mat &R, float PtoW[4][4], int &ao, ros::Publisher &pub)
+                        Pair &dest, cell cellDetails[][COL], set<pPair> &openList, bool closedList[][COL], int grid[][COL], bool &foundDest, cv::Mat &map, cv::Mat &R, float PtoW[4][4], int &xo, int &yo, int &xn, int &yn, int &dx, int &dy, int &ao, ros::Publisher &pub)
 {
     int k, l;
     k = i - 1;
     l = j;
 
-    directionProcess(i, j, k, l, gNew, hNew, fNew, dest, cellDetails, openList, closedList, grid, foundDest, map, R, PtoW, ao, pub);
+    directionProcess(i, j, k, l, gNew, hNew, fNew, dest, cellDetails, openList, closedList, grid, foundDest, map, R, PtoW, xo, yo, xn, yn, dx, dy, ao, pub);
 }
 
 void aStarSearch::south(int &i, int &j, double &gNew, double &hNew, double &fNew,
-                        Pair &dest, cell cellDetails[][COL], set<pPair> &openList, bool closedList[][COL], int grid[][COL], bool &foundDest, cv::Mat &map, cv::Mat &R, float PtoW[4][4], int &ao, ros::Publisher &pub)
+                        Pair &dest, cell cellDetails[][COL], set<pPair> &openList, bool closedList[][COL], int grid[][COL], bool &foundDest, cv::Mat &map, cv::Mat &R, float PtoW[4][4], int &xo, int &yo, int &xn, int &yn, int &dx, int &dy, int &ao, ros::Publisher &pub)
 {
     int k, l;
     k = i + 1;
     l = j;
 
-    directionProcess(i, j, k, l, gNew, hNew, fNew, dest, cellDetails, openList, closedList, grid, foundDest, map, R, PtoW, ao, pub);
+    directionProcess(i, j, k, l, gNew, hNew, fNew, dest, cellDetails, openList, closedList, grid, foundDest, map, R, PtoW, xo, yo, xn, yn, dx, dy, ao, pub);
 }
 
 void aStarSearch::east(int &i, int &j, double &gNew, double &hNew, double &fNew,
-                       Pair &dest, cell cellDetails[][COL], set<pPair> &openList, bool closedList[][COL], int grid[][COL], bool &foundDest, cv::Mat &map, cv::Mat &R, float PtoW[4][4], int &ao, ros::Publisher &pub)
+                       Pair &dest, cell cellDetails[][COL], set<pPair> &openList, bool closedList[][COL], int grid[][COL], bool &foundDest, cv::Mat &map, cv::Mat &R, float PtoW[4][4], int &xo, int &yo, int &xn, int &yn, int &dx, int &dy, int &ao, ros::Publisher &pub)
 {
     int k, l;
     k = i;
     l = j + 1;
 
-    directionProcess(i, j, k, l, gNew, hNew, fNew, dest, cellDetails, openList, closedList, grid, foundDest, map, R, PtoW, ao, pub);
+    directionProcess(i, j, k, l, gNew, hNew, fNew, dest, cellDetails, openList, closedList, grid, foundDest, map, R, PtoW, xo, yo, xn, yn, dx, dy, ao, pub);
 }
 
 void aStarSearch::west(int &i, int &j, double &gNew, double &hNew, double &fNew,
-                       Pair &dest, cell cellDetails[][COL], set<pPair> &openList, bool closedList[][COL], int grid[][COL], bool &foundDest, cv::Mat &map, cv::Mat &R, float PtoW[4][4], int &ao, ros::Publisher &pub)
+                       Pair &dest, cell cellDetails[][COL], set<pPair> &openList, bool closedList[][COL], int grid[][COL], bool &foundDest, cv::Mat &map, cv::Mat &R, float PtoW[4][4], int &xo, int &yo, int &xn, int &yn, int &dx, int &dy, int &ao, ros::Publisher &pub)
 {
     int k, l;
     k = i;
     l = j - 1;
 
-    directionProcess(i, j, k, l, gNew, hNew, fNew, dest, cellDetails, openList, closedList, grid, foundDest, map, R, PtoW, ao, pub);
+    directionProcess(i, j, k, l, gNew, hNew, fNew, dest, cellDetails, openList, closedList, grid, foundDest, map, R, PtoW, xo, yo, xn, yn, dx, dy, ao, pub);
 }
 
 void aStarSearch::northEast(int &i, int &j, double &gNew, double &hNew, double &fNew,
-                            Pair &dest, cell cellDetails[][COL], set<pPair> &openList, bool closedList[][COL], int grid[][COL], bool &foundDest, cv::Mat &map, cv::Mat &R, float PtoW[4][4], int &ao, ros::Publisher &pub)
+                            Pair &dest, cell cellDetails[][COL], set<pPair> &openList, bool closedList[][COL], int grid[][COL], bool &foundDest, cv::Mat &map, cv::Mat &R, float PtoW[4][4], int &xo, int &yo, int &xn, int &yn, int &dx, int &dy, int &ao, ros::Publisher &pub)
 {
     int k, l;
     k = i - 1;
     l = j + 1;
 
-    directionProcess(i, j, k, l, gNew, hNew, fNew, dest, cellDetails, openList, closedList, grid, foundDest, map, R, PtoW, ao, pub);
+    directionProcess(i, j, k, l, gNew, hNew, fNew, dest, cellDetails, openList, closedList, grid, foundDest, map, R, PtoW, xo, yo, xn, yn, dx, dy, ao, pub);
 }
 
 void aStarSearch::northWest(int &i, int &j, double &gNew, double &hNew, double &fNew,
-                            Pair &dest, cell cellDetails[][COL], set<pPair> &openList, bool closedList[][COL], int grid[][COL], bool &foundDest, cv::Mat &map, cv::Mat &R, float PtoW[4][4], int &ao, ros::Publisher &pub)
+                            Pair &dest, cell cellDetails[][COL], set<pPair> &openList, bool closedList[][COL], int grid[][COL], bool &foundDest, cv::Mat &map, cv::Mat &R, float PtoW[4][4], int &xo, int &yo, int &xn, int &yn, int &dx, int &dy, int &ao, ros::Publisher &pub)
 {
     int k, l;
     k = i - 1;
     l = j - 1;
 
-    directionProcess(i, j, k, l, gNew, hNew, fNew, dest, cellDetails, openList, closedList, grid, foundDest, map, R, PtoW, ao, pub);
+    directionProcess(i, j, k, l, gNew, hNew, fNew, dest, cellDetails, openList, closedList, grid, foundDest, map, R, PtoW, xo, yo, xn, yn, dx, dy, ao, pub);
 }
 
 void aStarSearch::southEast(int &i, int &j, double &gNew, double &hNew, double &fNew,
-                            Pair &dest, cell cellDetails[][COL], set<pPair> &openList, bool closedList[][COL], int grid[][COL], bool &foundDest, cv::Mat &map, cv::Mat &R, float PtoW[4][4], int &ao, ros::Publisher &pub)
+                            Pair &dest, cell cellDetails[][COL], set<pPair> &openList, bool closedList[][COL], int grid[][COL], bool &foundDest, cv::Mat &map, cv::Mat &R, float PtoW[4][4], int &xo, int &yo, int &xn, int &yn, int &dx, int &dy, int &ao, ros::Publisher &pub)
 {
     int k, l;
     k = i + 1;
     l = j + 1;
 
-    directionProcess(i, j, k, l, gNew, hNew, fNew, dest, cellDetails, openList, closedList, grid, foundDest, map, R, PtoW, ao, pub);
+    directionProcess(i, j, k, l, gNew, hNew, fNew, dest, cellDetails, openList, closedList, grid, foundDest, map, R, PtoW, xo, yo, xn, yn, dx, dy, ao, pub);
 }
 
 void aStarSearch::southWest(int &i, int &j, double &gNew, double &hNew, double &fNew,
-                            Pair &dest, cell cellDetails[][COL], set<pPair> &openList, bool closedList[][COL], int grid[][COL], bool &foundDest, cv::Mat &map, cv::Mat &R, float PtoW[4][4], int &ao, ros::Publisher &pub)
+                            Pair &dest, cell cellDetails[][COL], set<pPair> &openList, bool closedList[][COL], int grid[][COL], bool &foundDest, cv::Mat &map, cv::Mat &R, float PtoW[4][4], int &xo, int &yo, int &xn, int &yn, int &dx, int &dy, int &ao, ros::Publisher &pub)
 {
     int k, l;
     k = i + 1;
     l = j - 1;
 
-    directionProcess(i, j, k, l, gNew, hNew, fNew, dest, cellDetails, openList, closedList, grid, foundDest, map, R, PtoW, ao, pub);
+    directionProcess(i, j, k, l, gNew, hNew, fNew, dest, cellDetails, openList, closedList, grid, foundDest, map, R, PtoW, xo, yo, xn, yn, dx, dy, ao, pub);
 }
 
 void aStarSearch::directionProcess(int &i, int &j, int &k, int &l, double &gNew, double &hNew, double &fNew,
-                                   Pair &dest, cell cellDetails[][COL], set<pPair> &openList, bool closedList[][COL], int grid[][COL], bool &foundDest, cv::Mat &map, cv::Mat &R, float PtoW[4][4], int &ao, ros::Publisher &pub)
+                                   Pair &dest, cell cellDetails[][COL], set<pPair> &openList, bool closedList[][COL], int grid[][COL], bool &foundDest, cv::Mat &map, cv::Mat &R, float PtoW[4][4], int &xo, int &yo, int &xn, int &yn, int &dx, int &dy, int &ao, ros::Publisher &pub)
 {
     // Only process this cell if this is aStarSearch valid one
     if (isValid(k, l))
     {
         // If the destination cell is the same as the
         // current successor
-        if (isDestination(k, l, dest))
+        if (isDestination(k, l, dest, xo, yo, xn, yn, dx, dy, ao, pub))
         {
             // Set the Parent of the destination cell
             cellDetails[k][l].parent_i = i;
             cellDetails[k][l].parent_j = j;
             printf ("The destination cell is found\n");
-            tracePath (cellDetails, dest, map, R, PtoW, ao, pub);
+            tracePath (cellDetails, dest, map, R, PtoW, xo, yo, xn, yn, dx, dy, ao, pub);
             foundDest = true;
             return;
         }
@@ -184,13 +187,12 @@ void aStarSearch::directionProcess(int &i, int &j, int &k, int &l, double &gNew,
 
 // A Utility Function to trace the path from the source
 // to destination
-void aStarSearch::tracePath(cell cellDetails[][COL], Pair &dest, cv::Mat &map, cv::Mat &R, float PtoW[4][4], int &ao, ros::Publisher &pub)
+void aStarSearch::tracePath(cell cellDetails[][COL], Pair &dest, cv::Mat &map, cv::Mat &R, float PtoW[4][4], int &xo, int &yo, int &xn, int &yn, int &dx, int &dy, int &ao, ros::Publisher &pub)
 {
 //    Declare a counter variable to use later for accepting only next grid position of robot
     int nextGrid;
 
-//    Declare variables to store the robot's current (old) and new position in grid and also its destination
-    int xo, yo, xn, yn, dx, dy;
+
 
 //    Declare a variable to store Path size
     int pathSize;
@@ -244,6 +246,9 @@ void aStarSearch::tracePath(cell cellDetails[][COL], Pair &dest, cv::Mat &map, c
 // to A* Search Algorithm
     aStarSearch::aStarSearch(int grid[][COL], Pair &src, Pair &dest, cv::Mat &map, cv::Mat &R, float PtoW[4][4], int &ao, ros::Publisher &pub)
 {
+    //    Declare variables to store the robot's current (old) and new position in grid and also its destination
+    int xo, yo, xn, yn, dx, dy;
+    
     createMap(map,grid);
     // If the source is out of range
     if (!isValid (src.first, src.second))
@@ -268,7 +273,7 @@ void aStarSearch::tracePath(cell cellDetails[][COL], Pair &dest, cv::Mat &map, c
     }
 
     // If the destination cell is the same as source cell
-    if (isDestination(src.first, src.second, dest))
+    if (isDestination(src.first, src.second, dest, xo, yo, xn, yn, dx, dy, ao, pub))
     {
         printf ("We are already at the destination\n");
         return;
@@ -360,21 +365,21 @@ void aStarSearch::tracePath(cell cellDetails[][COL], Pair &dest, cv::Mat &map, c
         double gNew, hNew, fNew;
 
         if (!foundDest)
-            north(i,j,gNew,hNew,fNew,dest,cellDetails,openList,closedList,grid,foundDest,map,R,PtoW,ao,pub);
+            north(i,j,gNew,hNew,fNew,dest,cellDetails,openList,closedList,grid,foundDest,map,R,PtoW, xo, yo, xn, yn, dx, dy, ao, pub);
         if (!foundDest)
-            south(i,j,gNew,hNew,fNew,dest,cellDetails,openList,closedList,grid,foundDest,map,R,PtoW,ao,pub);
+            south(i,j,gNew,hNew,fNew,dest,cellDetails,openList,closedList,grid,foundDest,map,R,PtoW, xo, yo, xn, yn, dx, dy, ao, pub);
         if (!foundDest)
-            east(i,j,gNew,hNew,fNew,dest,cellDetails,openList,closedList,grid,foundDest,map,R,PtoW,ao,pub);
+            east(i,j,gNew,hNew,fNew,dest,cellDetails,openList,closedList,grid,foundDest,map,R,PtoW, xo, yo, xn, yn, dx, dy, ao, pub);
         if (!foundDest)
-            west(i,j,gNew,hNew,fNew,dest,cellDetails,openList,closedList,grid,foundDest,map,R,PtoW,ao,pub);
+            west(i,j,gNew,hNew,fNew,dest,cellDetails,openList,closedList,grid,foundDest,map,R,PtoW, xo, yo, xn, yn, dx, dy, ao, pub);
         if (!foundDest)
-            northEast(i,j,gNew,hNew,fNew,dest,cellDetails,openList,closedList,grid,foundDest,map,R,PtoW,ao,pub);
+            northEast(i,j,gNew,hNew,fNew,dest,cellDetails,openList,closedList,grid,foundDest,map,R,PtoW, xo, yo, xn, yn, dx, dy, ao, pub);
         if (!foundDest)
-            northWest(i,j,gNew,hNew,fNew,dest,cellDetails,openList,closedList,grid,foundDest,map,R,PtoW,ao,pub);
+            northWest(i,j,gNew,hNew,fNew,dest,cellDetails,openList,closedList,grid,foundDest,map,R,PtoW, xo, yo, xn, yn, dx, dy, ao, pub);
         if (!foundDest)
-            southEast(i,j,gNew,hNew,fNew,dest,cellDetails,openList,closedList,grid,foundDest,map,R,PtoW,ao,pub);
+            southEast(i,j,gNew,hNew,fNew,dest,cellDetails,openList,closedList,grid,foundDest,map,R,PtoW, xo, yo, xn, yn, dx, dy, ao, pub);
         if (!foundDest)
-            southWest(i,j,gNew,hNew,fNew,dest,cellDetails,openList,closedList,grid,foundDest,map,R,PtoW,ao,pub);
+            southWest(i,j,gNew,hNew,fNew,dest,cellDetails,openList,closedList,grid,foundDest,map,R,PtoW, xo, yo, xn, yn, dx, dy, ao, pub);
     }
 
     // When the destination cell is not found and the open

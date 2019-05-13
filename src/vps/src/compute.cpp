@@ -194,7 +194,7 @@ void compute::printWorldRotationVector(Mat &R, float PtoW[4][4], int &ao) {
         y = atan2(-G.at<double>(2,0), sy);
         z = 0;
     }
-    ao = z;
+    ao = (z*180/CV_PI);
     cout << "World Rotation Vector: \t" << (x*180/CV_PI) << "\t"  << (y*180/CV_PI) << "\t" << (z*180/CV_PI) << endl;
 }
 

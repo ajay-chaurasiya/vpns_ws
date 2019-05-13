@@ -40,12 +40,16 @@ void navigation::positionDetails(int &xo, int &yo, int &xn, int &yn, int &dx, in
     // Run our code in a loop until node is shutdown
 //    while (ros::ok())
 //    {
+	std::cout << "old Angle 'ao' = " << ao << std::endl;
 	if (ros::ok()) {
 	
 	// Normalize robot angle from (0 --> +180, -180) to (0 --> +360)
 	if (ao < 0) {
 	   ao = 180 + (180 - abs(ao));
 	}
+	
+	
+	ROS_INFO("\n old Angle ao = %d", ao);
 	
         // Create string stream going with message
         std::stringstream text;
@@ -73,5 +77,6 @@ void navigation::positionDetails(int &xo, int &yo, int &xn, int &yn, int &dx, in
         // Spin once to collect subscribed messages and call callbacks for them 
     	// ros::spinOnce();
     	}
+    	
 //    }
 }

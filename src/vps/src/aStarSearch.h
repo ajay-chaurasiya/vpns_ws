@@ -38,38 +38,38 @@ public:
 
     bool isUnBlocked(int grid[][COL], int row, int col);
 
-    bool isDestination(int row, int col, Pair dest);
+    bool isDestination(int row, int col, Pair dest, int &xo, int &yo, int &xn, int &yn, int &dx, int &dy, int &ao, ros::Publisher &pub);
 
     double calculateHValue(int row, int col, Pair dest);
 
     void north(int &i, int &j, double &gNew, double &hNew, double &fNew,
-               Pair &dest, cell cellDetails[][COL], set<pPair> &openList, bool closedList[][COL], int grid[][COL], bool &foundDest, cv::Mat &map, cv::Mat &R, float PtoW[4][4], int &ao, ros::Publisher &pub);
+               Pair &dest, cell cellDetails[][COL], set<pPair> &openList, bool closedList[][COL], int grid[][COL], bool &foundDest, cv::Mat &map, cv::Mat &R, float PtoW[4][4], int &xo, int &yo, int &xn, int &yn, int &dx, int &dy, int &ao, ros::Publisher &pub);
 
     void south(int &i, int &j, double &gNew, double &hNew, double &fNew,
-               Pair &dest, cell cellDetails[][COL], set<pPair> &openList, bool closedList[][COL], int grid[][COL], bool &foundDest, cv::Mat &map, cv::Mat &R, float PtoW[4][4], int &ao, ros::Publisher &pub);
+               Pair &dest, cell cellDetails[][COL], set<pPair> &openList, bool closedList[][COL], int grid[][COL], bool &foundDest, cv::Mat &map, cv::Mat &R, float PtoW[4][4], int &xo, int &yo, int &xn, int &yn, int &dx, int &dy, int &ao, ros::Publisher &pub);
 
     void east(int &i, int &j, double &gNew, double &hNew, double &fNew,
-              Pair &dest, cell cellDetails[][COL], set<pPair> &openList, bool closedList[][COL], int grid[][COL], bool &foundDest, cv::Mat &map, cv::Mat &R, float PtoW[4][4], int &ao, ros::Publisher &pub);
+              Pair &dest, cell cellDetails[][COL], set<pPair> &openList, bool closedList[][COL], int grid[][COL], bool &foundDest, cv::Mat &map, cv::Mat &R, float PtoW[4][4], int &xo, int &yo, int &xn, int &yn, int &dx, int &dy, int &ao, ros::Publisher &pub);
 
     void west(int &i, int &j, double &gNew, double &hNew, double &fNew,
-              Pair &dest, cell cellDetails[][COL], set<pPair> &openList, bool closedList[][COL], int grid[][COL], bool &foundDest, cv::Mat &map, cv::Mat &R, float PtoW[4][4], int &ao, ros::Publisher &pub);
+              Pair &dest, cell cellDetails[][COL], set<pPair> &openList, bool closedList[][COL], int grid[][COL], bool &foundDest, cv::Mat &map, cv::Mat &R, float PtoW[4][4], int &xo, int &yo, int &xn, int &yn, int &dx, int &dy, int &ao, ros::Publisher &pub);
 
     void northEast(int &i, int &j, double &gNew, double &hNew, double &fNew,
-                   Pair &dest, cell cellDetails[][COL], set<pPair> &openList, bool closedList[][COL], int grid[][COL], bool &foundDest, cv::Mat &map, cv::Mat &R, float PtoW[4][4], int &ao, ros::Publisher &pub);
+                   Pair &dest, cell cellDetails[][COL], set<pPair> &openList, bool closedList[][COL], int grid[][COL], bool &foundDest, cv::Mat &map, cv::Mat &R, float PtoW[4][4], int &xo, int &yo, int &xn, int &yn, int &dx, int &dy, int &ao, ros::Publisher &pub);
 
     void northWest(int &i, int &j, double &gNew, double &hNew, double &fNew,
-                   Pair &dest, cell cellDetails[][COL], set<pPair> &openList, bool closedList[][COL], int grid[][COL], bool &foundDest, cv::Mat &map, cv::Mat &R, float PtoW[4][4], int &ao, ros::Publisher &pub);
+                   Pair &dest, cell cellDetails[][COL], set<pPair> &openList, bool closedList[][COL], int grid[][COL], bool &foundDest, cv::Mat &map, cv::Mat &R, float PtoW[4][4], int &xo, int &yo, int &xn, int &yn, int &dx, int &dy, int &ao, ros::Publisher &pub);
 
     void southEast(int &i, int &j, double &gNew, double &hNew, double &fNew,
-                   Pair &dest, cell cellDetails[][COL], set<pPair> &openList, bool closedList[][COL], int grid[][COL], bool &foundDest, cv::Mat &map, cv::Mat &R, float PtoW[4][4], int &ao, ros::Publisher &pub);
+                   Pair &dest, cell cellDetails[][COL], set<pPair> &openList, bool closedList[][COL], int grid[][COL], bool &foundDest, cv::Mat &map, cv::Mat &R, float PtoW[4][4], int &xo, int &yo, int &xn, int &yn, int &dx, int &dy, int &ao, ros::Publisher &pub);
 
     void southWest(int &i, int &j, double &gNew, double &hNew, double &fNew,
-                   Pair &dest, cell cellDetails[][COL], set<pPair> &openList, bool closedList[][COL], int grid[][COL], bool &foundDest, cv::Mat &map, cv::Mat &R, float PtoW[4][4], int &ao, ros::Publisher &pub);
+                   Pair &dest, cell cellDetails[][COL], set<pPair> &openList, bool closedList[][COL], int grid[][COL], bool &foundDest, cv::Mat &map, cv::Mat &R, float PtoW[4][4], int &xo, int &yo, int &xn, int &yn, int &dx, int &dy, int &ao, ros::Publisher &pub);
 
     void directionProcess(int &i, int &j, int &k, int &l, double &gNew, double &hNew, double &fNew,
-                          Pair &dest, cell cellDetails[][COL], set<pPair> &openList, bool closedList[][COL], int grid[][COL], bool &foundDest, cv::Mat &map, cv::Mat &R, float PtoW[4][4], int &ao, ros::Publisher &pub);
+                          Pair &dest, cell cellDetails[][COL], set<pPair> &openList, bool closedList[][COL], int grid[][COL], bool &foundDest, cv::Mat &map, cv::Mat &R, float PtoW[4][4], int &xo, int &yo, int &xn, int &yn, int &dx, int &dy, int &ao, ros::Publisher &pub);
 
-    void tracePath(cell cellDetails[][COL], Pair &dest, cv::Mat &map, cv::Mat &R, float PtoW[4][4], int &ao, ros::Publisher &pub);
+    void tracePath(cell cellDetails[][COL], Pair &dest, cv::Mat &map, cv::Mat &R, float PtoW[4][4], int &xo, int &yo, int &xn, int &yn, int &dx, int &dy, int &ao, ros::Publisher &pub);
 
     void createMap(cv::Mat &map, int grid[][COL]);
 

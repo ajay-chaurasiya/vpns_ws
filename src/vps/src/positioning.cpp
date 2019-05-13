@@ -91,7 +91,7 @@ positioning::positioning(float PtoW[4][4], float CtoW[4][4], float PtoC [4][4], 
          if(frame == 5)
          {
 //             Initialize coordinate values for source
-             int x = (PtoW[0][3])/0.6, y = (PtoW[1][3])/0.6;
+             int x = (PtoW[0][3])/0.3, y = (PtoW[1][3])/0.3;
 //             Source
              aStarSearch::Pair src = make_pair(x, y);
 //             Destination

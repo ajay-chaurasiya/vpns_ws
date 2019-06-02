@@ -30,7 +30,7 @@ int main(int argc, char** argv)
 {
 //    Initialize RnT matrices to store 'point ot camera', 'camera to world' and 'point to world' coordinates
     float CtoW[4][4], PtoC[4][4];
-    float PtoW[4][4] = { 1,  0,  0,     0,
+    float PtoW[4][4] = { 1,  0,  0,     0.6,
                          0,  1,  0,     0,
                          0,  0,  1,      0,
                          0,  0,  0,      1};
@@ -58,7 +58,7 @@ int main(int argc, char** argv)
     ros::NodeHandle n;
     
     // Create a publisher
-    ros::Publisher pub = n.advertise<vps::pathDetails>("navigationDetails", 10);
+    ros::Publisher pub = n.advertise<vps::pathDetails>("navigationDetails", 1);
     
 
 

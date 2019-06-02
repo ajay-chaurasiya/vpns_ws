@@ -56,7 +56,7 @@ positioning::positioning(float PtoW[4][4], float CtoW[4][4], float PtoC [4][4], 
     int ao;
 
 //    Mat object for representing map as an image
-    cv::Mat map(9,10,CV_8UC1, cv::Scalar(100));
+    cv::Mat map(10,5,CV_8UC1, cv::Scalar(100));
 
     clock_t time;
 
@@ -86,16 +86,16 @@ positioning::positioning(float PtoW[4][4], float CtoW[4][4], float PtoC [4][4], 
          namedWindow("3D Pose Estimation Window", WINDOW_FREERATIO);
          imshow("3D Pose Estimation Window", imageCopy);
 
+         if(frame == 3)
+             map=(10,5,CV_8UC1, cv::Scalar(100));
          if(frame == 4)
-             map=(9,10,CV_8UC1, cv::Scalar(100));
-         if(frame == 5)
          {
 //             Initialize coordinate values for source
-             int x = (PtoW[0][3])/0.3, y = (PtoW[1][3])/0.3;
+             int x = (PtoW[0][3])/0.6, y = (PtoW[1][3])/0.6;
 //             Source
              aStarSearch::Pair src = make_pair(x, y);
 //             Destination
-             aStarSearch::Pair dest = make_pair(0,0);
+             aStarSearch::Pair dest = make_pair(2,0);
 //             A* search algorithm to find the shortest path from source 'src' to destination 'dest'
              aStarSearch(grid, src, dest, map, R, PtoW, ao, pub);
              cv::namedWindow("Map", cv::WINDOW_FREERATIO);

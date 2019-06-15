@@ -32,6 +32,8 @@ struct pathDetails_
     , newAngle(0)
     , destX(0)
     , destY(0)
+    , xc(0.0)
+    , yc(0.0)
     , text()  {
     }
   pathDetails_(const ContainerAllocator& _alloc)
@@ -43,6 +45,8 @@ struct pathDetails_
     , newAngle(0)
     , destX(0)
     , destY(0)
+    , xc(0.0)
+    , yc(0.0)
     , text(_alloc)  {
   (void)_alloc;
     }
@@ -72,6 +76,12 @@ struct pathDetails_
 
    typedef int32_t _destY_type;
   _destY_type destY;
+
+   typedef float _xc_type;
+  _xc_type xc;
+
+   typedef float _yc_type;
+  _yc_type yc;
 
    typedef std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other >  _text_type;
   _text_type text;
@@ -154,12 +164,12 @@ struct MD5Sum< ::vps::pathDetails_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "88795057299c09e1b94f01119118c950";
+    return "b2679da3ca50ef65d8ae88e78f40991b";
   }
 
   static const char* value(const ::vps::pathDetails_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0x88795057299c09e1ULL;
-  static const uint64_t static_value2 = 0xb94f01119118c950ULL;
+  static const uint64_t static_value1 = 0xb2679da3ca50ef65ULL;
+  static const uint64_t static_value2 = 0xd8ae88e78f40991bULL;
 };
 
 template<class ContainerAllocator>
@@ -186,6 +196,8 @@ int32 oldAngle\n\
 int32 newAngle\n\
 int32 destX\n\
 int32 destY\n\
+float32 xc\n\
+float32 yc\n\
 string text\n\
 ";
   }
@@ -213,6 +225,8 @@ namespace serialization
       stream.next(m.newAngle);
       stream.next(m.destX);
       stream.next(m.destY);
+      stream.next(m.xc);
+      stream.next(m.yc);
       stream.next(m.text);
     }
 
@@ -248,6 +262,10 @@ struct Printer< ::vps::pathDetails_<ContainerAllocator> >
     Printer<int32_t>::stream(s, indent + "  ", v.destX);
     s << indent << "destY: ";
     Printer<int32_t>::stream(s, indent + "  ", v.destY);
+    s << indent << "xc: ";
+    Printer<float>::stream(s, indent + "  ", v.xc);
+    s << indent << "yc: ";
+    Printer<float>::stream(s, indent + "  ", v.yc);
     s << indent << "text: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other > >::stream(s, indent + "  ", v.text);
   }

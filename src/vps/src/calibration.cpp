@@ -47,7 +47,7 @@ vector<Vec3f> translationMatrix;
     Mat cameraMatrix, distCoeffs;
 
 // Read the camera parameters from the specified file
-    FileStorage fs("/home/ajay/vpns_ws/src/vps/src/Camera_Param_720P.xml",FileStorage::READ);
+    FileStorage fs("/home/ajay/vpns_ws/src/vps/src/Camera_Param_6.xml",FileStorage::READ);
     fs["Intrinsic_Parameters"] >> cameraMatrix;
     fs["Distorion_Coeffecients"] >> distCoeffs;
 
@@ -106,20 +106,4 @@ while (capture.grab())
 capture.release();
 cvDestroyWindow("out");
 
-//######################################################################################################
-
-/*cout
-<< "Please select the mode to continue: \n \n"
-" Press 1 for Pose Estimation Mode \n\n"
-" Press 2 to go back to Main Program \n\n"
-" Press 0 to Kill the Program \n";
-int m;
-cin >> m;
-
-if (m == 1)
-PoseEstimation();
-if (m == 2)
-return main(0,0);
-if (m == 0)
-return 0;*/
 }

@@ -15,6 +15,10 @@
           DESTX
           DESTY-VAL
           DESTY
+          XC-VAL
+          XC
+          YC-VAL
+          YC
           TEXT-VAL
           TEXT
 ))

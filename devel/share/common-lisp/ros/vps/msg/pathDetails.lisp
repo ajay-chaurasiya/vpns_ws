@@ -47,6 +47,16 @@
     :initarg :destY
     :type cl:integer
     :initform 0)
+   (xc
+    :reader xc
+    :initarg :xc
+    :type cl:float
+    :initform 0.0)
+   (yc
+    :reader yc
+    :initarg :yc
+    :type cl:float
+    :initform 0.0)
    (text
     :reader text
     :initarg :text
@@ -102,6 +112,16 @@
   (roslisp-msg-protocol:msg-deprecation-warning "Using old-style slot reader vps-msg:destY-val is deprecated.  Use vps-msg:destY instead.")
   (destY m))
 
+(cl:ensure-generic-function 'xc-val :lambda-list '(m))
+(cl:defmethod xc-val ((m <pathDetails>))
+  (roslisp-msg-protocol:msg-deprecation-warning "Using old-style slot reader vps-msg:xc-val is deprecated.  Use vps-msg:xc instead.")
+  (xc m))
+
+(cl:ensure-generic-function 'yc-val :lambda-list '(m))
+(cl:defmethod yc-val ((m <pathDetails>))
+  (roslisp-msg-protocol:msg-deprecation-warning "Using old-style slot reader vps-msg:yc-val is deprecated.  Use vps-msg:yc instead.")
+  (yc m))
+
 (cl:ensure-generic-function 'text-val :lambda-list '(m))
 (cl:defmethod text-val ((m <pathDetails>))
   (roslisp-msg-protocol:msg-deprecation-warning "Using old-style slot reader vps-msg:text-val is deprecated.  Use vps-msg:text instead.")
@@ -156,6 +176,16 @@
     (cl:write-byte (cl:ldb (cl:byte 8 16) unsigned) ostream)
     (cl:write-byte (cl:ldb (cl:byte 8 24) unsigned) ostream)
     )
+  (cl:let ((bits (roslisp-utils:encode-single-float-bits (cl:slot-value msg 'xc))))
+    (cl:write-byte (cl:ldb (cl:byte 8 0) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 8) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 16) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 24) bits) ostream))
+  (cl:let ((bits (roslisp-utils:encode-single-float-bits (cl:slot-value msg 'yc))))
+    (cl:write-byte (cl:ldb (cl:byte 8 0) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 8) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 16) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 24) bits) ostream))
   (cl:let ((__ros_str_len (cl:length (cl:slot-value msg 'text))))
     (cl:write-byte (cl:ldb (cl:byte 8 0) __ros_str_len) ostream)
     (cl:write-byte (cl:ldb (cl:byte 8 8) __ros_str_len) ostream)
@@ -213,6 +243,18 @@
       (cl:setf (cl:ldb (cl:byte 8 16) unsigned) (cl:read-byte istream))
       (cl:setf (cl:ldb (cl:byte 8 24) unsigned) (cl:read-byte istream))
       (cl:setf (cl:slot-value msg 'destY) (cl:if (cl:< unsigned 2147483648) unsigned (cl:- unsigned 4294967296))))
+    (cl:let ((bits 0))
+      (cl:setf (cl:ldb (cl:byte 8 0) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 8) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 16) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 24) bits) (cl:read-byte istream))
+    (cl:setf (cl:slot-value msg 'xc) (roslisp-utils:decode-single-float-bits bits)))
+    (cl:let ((bits 0))
+      (cl:setf (cl:ldb (cl:byte 8 0) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 8) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 16) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 24) bits) (cl:read-byte istream))
+    (cl:setf (cl:slot-value msg 'yc) (roslisp-utils:decode-single-float-bits bits)))
     (cl:let ((__ros_str_len 0))
       (cl:setf (cl:ldb (cl:byte 8 0) __ros_str_len) (cl:read-byte istream))
       (cl:setf (cl:ldb (cl:byte 8 8) __ros_str_len) (cl:read-byte istream))
@@ -231,18 +273,20 @@
   "vps/pathDetails")
 (cl:defmethod roslisp-msg-protocol:md5sum ((type (cl:eql '<pathDetails>)))
   "Returns md5sum for a message object of type '<pathDetails>"
-  "88795057299c09e1b94f01119118c950")
+  "b2679da3ca50ef65d8ae88e78f40991b")
 (cl:defmethod roslisp-msg-protocol:md5sum ((type (cl:eql 'pathDetails)))
   "Returns md5sum for a message object of type 'pathDetails"
-  "88795057299c09e1b94f01119118c950")
+  "b2679da3ca50ef65d8ae88e78f40991b")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<pathDetails>)))
   "Returns full string definition for message of type '<pathDetails>"
-  (cl:format cl:nil "int32 oldX~%int32 oldY~%int32 newX~%int32 newY~%int32 oldAngle~%int32 newAngle~%int32 destX~%int32 destY~%string text~%~%~%"))
+  (cl:format cl:nil "int32 oldX~%int32 oldY~%int32 newX~%int32 newY~%int32 oldAngle~%int32 newAngle~%int32 destX~%int32 destY~%float32 xc~%float32 yc~%string text~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'pathDetails)))
   "Returns full string definition for message of type 'pathDetails"
-  (cl:format cl:nil "int32 oldX~%int32 oldY~%int32 newX~%int32 newY~%int32 oldAngle~%int32 newAngle~%int32 destX~%int32 destY~%string text~%~%~%"))
+  (cl:format cl:nil "int32 oldX~%int32 oldY~%int32 newX~%int32 newY~%int32 oldAngle~%int32 newAngle~%int32 destX~%int32 destY~%float32 xc~%float32 yc~%string text~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <pathDetails>))
   (cl:+ 0
+     4
+     4
      4
      4
      4
@@ -264,5 +308,7 @@
     (cl:cons ':newAngle (newAngle msg))
     (cl:cons ':destX (destX msg))
     (cl:cons ':destY (destY msg))
+    (cl:cons ':xc (xc msg))
+    (cl:cons ':yc (yc msg))
     (cl:cons ':text (text msg))
 ))

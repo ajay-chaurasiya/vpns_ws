@@ -29,7 +29,7 @@ positioning::positioning(float PtoW[4][4], float CtoW[4][4], float PtoC [4][4], 
     int frameCount = 15;    //capture.get(CV_CAP_PROP_FPS);
 
     cout << "Width: " << frameWidth << "Height: " << frameHeight << "FPS: " << frameCount;
-//    VideoWriter video("PoseEstimation_Trial_720P_FPS_15_Trial_5.avi", CV_FOURCC('M','J','P','G'), frameCount, Size(frameWidth, frameHeight));
+    VideoWriter video("positioning-navigation-6-june-2019-08.avi", CV_FOURCC('M','J','P','G'), frameCount, Size(frameWidth, frameHeight));
 
     compute::initializeToZero(PtoW);
 
@@ -43,11 +43,14 @@ positioning::positioning(float PtoW[4][4], float CtoW[4][4], float PtoC [4][4], 
     vector<Vec3d> rvecs, tvecs;
 
     // Read the camera parameters from the specified file
-    FileStorage fs("/home/ajay/vpns_ws/src/vps/src/Camera_Param_720P.xml",FileStorage::READ);
+    FileStorage fs("/home/ajay/vpns_ws/src/vps/src/Camera_Param_6.xml",FileStorage::READ);
     fs["Intrinsic_Parameters"] >> cameraMatrix;
     fs["Distorion_Coeffecients"] >> distCoeffs;
 
     bool tagFound;
+    
+//    Variable to store new destination
+    int dx = 0, dy = 0;
 
 //    variable to store frame count to enter path planning mode only once in a while
     int frame=0;
@@ -56,7 +59,7 @@ positioning::positioning(float PtoW[4][4], float CtoW[4][4], float PtoC [4][4], 
     int ao;
 
 //    Mat object for representing map as an image
-    cv::Mat map(10,5,CV_8UC1, cv::Scalar(100));
+    cv::Mat map(8,8,CV_8UC1, cv::Scalar(100));
 
     clock_t time;
 
@@ -80,33 +83,38 @@ positioning::positioning(float PtoW[4][4], float CtoW[4][4], float PtoC [4][4], 
 
          compute::printWorldCoordinates(PtoW, imageCopy);
 
-         compute::printCameraCoordinates(PtoC, imageCopy);
+//         compute::printCameraCoordinates(PtoC, imageCopy);
 
          // Display the image
          namedWindow("3D Pose Estimation Window", WINDOW_FREERATIO);
          imshow("3D Pose Estimation Window", imageCopy);
 
          if(frame == 3)
-             map=(10,5,CV_8UC1, cv::Scalar(100));
+             map=(8,8,CV_8UC1, cv::Scalar(100));
          if(frame == 4)
          {
+//		Initialize variables to store current position of robot to be passed through ROS message
+	     int xc = (PtoW[0][3])*100, yc = (PtoW[1][3])*100;
+	     
 //             Initialize coordinate values for source
              int x = (PtoW[0][3])/0.6, y = (PtoW[1][3])/0.6;
 //             Source
              aStarSearch::Pair src = make_pair(x, y);
 //             Destination
-             aStarSearch::Pair dest = make_pair(2,0);
+             aStarSearch::Pair dest = make_pair(dx,dy);
 //             A* search algorithm to find the shortest path from source 'src' to destination 'dest'
-             aStarSearch(grid, src, dest, map, R, PtoW, ao, pub);
+             aStarSearch(grid, src, dest, map, R, PtoW, ao, xc, yc, pub);
              cv::namedWindow("Map", cv::WINDOW_FREERATIO);
+             cv::flip(map,map,0);
+             cv::flip(map,map,+1);
              cv::imshow("Map",map);
 //             cv::waitKey(0);
 //             cv::destroyAllWindows();
              frame = 0;
-         }
-
+          }
+         
          // Store Video Stream
-//         video.write(imageCopy);
+         video.write(imageCopy);
 
         compute::initializeToZero(PtoW);
 
@@ -116,7 +124,15 @@ positioning::positioning(float PtoW[4][4], float CtoW[4][4], float PtoC [4][4], 
         double functionTime = ((double)time)/CLOCKS_PER_SEC;
         cout << "Positioning time taken = " << functionTime << endl;
 
-         char key = (char) waitKey(5);
+      
+         char key = (char) waitKey(10);
+//         Condition to set new destination 
+         if (key == 32)
+         {
+         	cout << "\n Enter new destination (x,y): ";
+         	cin >> dx >> dy;
+         }
+//         Condition for loop break
          if (key == 27)
          {
              // Release the camera

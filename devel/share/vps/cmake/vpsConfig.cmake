@@ -74,7 +74,7 @@ if("TRUE" STREQUAL "TRUE")
 else()
   set(vps_SOURCE_PREFIX "")
   set(vps_DEVEL_PREFIX "")
-  set(vps_INSTALL_PREFIX /home/ajay/vpns_ws/install)
+  set(vps_INSTALL_PREFIX /usr/local)
   set(vps_PREFIX ${vps_INSTALL_PREFIX})
 endif()
 

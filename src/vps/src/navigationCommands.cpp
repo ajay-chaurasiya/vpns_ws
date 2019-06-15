@@ -10,7 +10,7 @@
 #include "navigationCommands.h"
 
 // Main loop
-void navigation::positionDetails(int &xo, int &yo, int &xn, int &yn, int &dx, int &dy, int &ao, ros::Publisher &pub) {
+void navigation::positionDetails(int &xo, int &yo, int &xn, int &yn, int &dx, int &dy, int &ao, int &xc, int &yc, ros::Publisher &pub) {
 
     
 
@@ -67,6 +67,8 @@ void navigation::positionDetails(int &xo, int &yo, int &xn, int &yn, int &dx, in
         message.newAngle = an;
         message.destX = dx;
         message.destY = dy;
+        message.xc = xc;
+        message.yc = yc;
         message.text = text.str();
 
         pub.publish(message);

@@ -26,6 +26,8 @@ class pathDetails {
       this.newAngle = null;
       this.destX = null;
       this.destY = null;
+      this.xc = null;
+      this.yc = null;
       this.text = null;
     }
     else {
@@ -77,6 +79,18 @@ class pathDetails {
       else {
         this.destY = 0;
       }
+      if (initObj.hasOwnProperty('xc')) {
+        this.xc = initObj.xc
+      }
+      else {
+        this.xc = 0.0;
+      }
+      if (initObj.hasOwnProperty('yc')) {
+        this.yc = initObj.yc
+      }
+      else {
+        this.yc = 0.0;
+      }
       if (initObj.hasOwnProperty('text')) {
         this.text = initObj.text
       }
@@ -104,6 +118,10 @@ class pathDetails {
     bufferOffset = _serializer.int32(obj.destX, buffer, bufferOffset);
     // Serialize message field [destY]
     bufferOffset = _serializer.int32(obj.destY, buffer, bufferOffset);
+    // Serialize message field [xc]
+    bufferOffset = _serializer.float32(obj.xc, buffer, bufferOffset);
+    // Serialize message field [yc]
+    bufferOffset = _serializer.float32(obj.yc, buffer, bufferOffset);
     // Serialize message field [text]
     bufferOffset = _serializer.string(obj.text, buffer, bufferOffset);
     return bufferOffset;
@@ -129,6 +147,10 @@ class pathDetails {
     data.destX = _deserializer.int32(buffer, bufferOffset);
     // Deserialize message field [destY]
     data.destY = _deserializer.int32(buffer, bufferOffset);
+    // Deserialize message field [xc]
+    data.xc = _deserializer.float32(buffer, bufferOffset);
+    // Deserialize message field [yc]
+    data.yc = _deserializer.float32(buffer, bufferOffset);
     // Deserialize message field [text]
     data.text = _deserializer.string(buffer, bufferOffset);
     return data;
@@ -137,7 +159,7 @@ class pathDetails {
   static getMessageSize(object) {
     let length = 0;
     length += object.text.length;
-    return length + 36;
+    return length + 44;
   }
 
   static datatype() {
@@ -147,7 +169,7 @@ class pathDetails {
 
   static md5sum() {
     //Returns md5sum for a message object
-    return '88795057299c09e1b94f01119118c950';
+    return 'b2679da3ca50ef65d8ae88e78f40991b';
   }
 
   static messageDefinition() {
@@ -161,6 +183,8 @@ class pathDetails {
     int32 newAngle
     int32 destX
     int32 destY
+    float32 xc
+    float32 yc
     string text
     
     `;
@@ -226,6 +250,20 @@ class pathDetails {
     }
     else {
       resolved.destY = 0
+    }
+
+    if (msg.xc !== undefined) {
+      resolved.xc = msg.xc;
+    }
+    else {
+      resolved.xc = 0.0
+    }
+
+    if (msg.yc !== undefined) {
+      resolved.yc = msg.yc;
+    }
+    else {
+      resolved.yc = 0.0
     }
 
     if (msg.text !== undefined) {

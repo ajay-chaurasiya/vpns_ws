@@ -14,7 +14,7 @@
 
 (defclass vps::pathDetails
   :super ros::object
-  :slots (_oldX _oldY _newX _newY _oldAngle _newAngle _destX _destY _text ))
+  :slots (_oldX _oldY _newX _newY _oldAngle _newAngle _destX _destY _xc _yc _text ))
 
 (defmethod vps::pathDetails
   (:init
@@ -27,6 +27,8 @@
     ((:newAngle __newAngle) 0)
     ((:destX __destX) 0)
     ((:destY __destY) 0)
+    ((:xc __xc) 0.0)
+    ((:yc __yc) 0.0)
     ((:text __text) "")
     )
    (send-super :init)
@@ -38,6 +40,8 @@
    (setq _newAngle (round __newAngle))
    (setq _destX (round __destX))
    (setq _destY (round __destY))
+   (setq _xc (float __xc))
+   (setq _yc (float __yc))
    (setq _text (string __text))
    self)
   (:oldX
@@ -64,6 +68,12 @@
   (:destY
    (&optional __destY)
    (if __destY (setq _destY __destY)) _destY)
+  (:xc
+   (&optional __xc)
+   (if __xc (setq _xc __xc)) _xc)
+  (:yc
+   (&optional __yc)
+   (if __yc (setq _yc __yc)) _yc)
   (:text
    (&optional __text)
    (if __text (setq _text __text)) _text)
@@ -85,6 +95,10 @@
     ;; int32 _destX
     4
     ;; int32 _destY
+    4
+    ;; float32 _xc
+    4
+    ;; float32 _yc
     4
     ;; string _text
     4 (length _text)
@@ -109,6 +123,10 @@
        (write-long _destX s)
      ;; int32 _destY
        (write-long _destY s)
+     ;; float32 _xc
+       (sys::poke _xc (send s :buffer) (send s :count) :float) (incf (stream-count s) 4)
+     ;; float32 _yc
+       (sys::poke _yc (send s :buffer) (send s :count) :float) (incf (stream-count s) 4)
      ;; string _text
        (write-long (length _text) s) (princ _text s)
      ;;
@@ -131,13 +149,17 @@
      (setq _destX (sys::peek buf ptr- :integer)) (incf ptr- 4)
    ;; int32 _destY
      (setq _destY (sys::peek buf ptr- :integer)) (incf ptr- 4)
+   ;; float32 _xc
+     (setq _xc (sys::peek buf ptr- :float)) (incf ptr- 4)
+   ;; float32 _yc
+     (setq _yc (sys::peek buf ptr- :float)) (incf ptr- 4)
    ;; string _text
      (let (n) (setq n (sys::peek buf ptr- :integer)) (incf ptr- 4) (setq _text (subseq buf ptr- (+ ptr- n))) (incf ptr- n))
    ;;
    self)
   )
 
-(setf (get vps::pathDetails :md5sum-) "88795057299c09e1b94f01119118c950")
+(setf (get vps::pathDetails :md5sum-) "b2679da3ca50ef65d8ae88e78f40991b")
 (setf (get vps::pathDetails :datatype-) "vps/pathDetails")
 (setf (get vps::pathDetails :definition-)
       "int32 oldX
@@ -148,12 +170,14 @@ int32 oldAngle
 int32 newAngle
 int32 destX
 int32 destY
+float32 xc
+float32 yc
 string text
 
 ")
 
 
 
-(provide :vps/pathDetails "88795057299c09e1b94f01119118c950")
+(provide :vps/pathDetails "b2679da3ca50ef65d8ae88e78f40991b")
 
 

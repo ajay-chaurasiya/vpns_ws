@@ -7,7 +7,7 @@ import struct
 
 
 class pathDetails(genpy.Message):
-  _md5sum = "88795057299c09e1b94f01119118c950"
+  _md5sum = "b2679da3ca50ef65d8ae88e78f40991b"
   _type = "vps/pathDetails"
   _has_header = False #flag to mark the presence of a Header object
   _full_text = """int32 oldX
@@ -18,10 +18,12 @@ int32 oldAngle
 int32 newAngle
 int32 destX
 int32 destY
+float32 xc
+float32 yc
 string text
 """
-  __slots__ = ['oldX','oldY','newX','newY','oldAngle','newAngle','destX','destY','text']
-  _slot_types = ['int32','int32','int32','int32','int32','int32','int32','int32','string']
+  __slots__ = ['oldX','oldY','newX','newY','oldAngle','newAngle','destX','destY','xc','yc','text']
+  _slot_types = ['int32','int32','int32','int32','int32','int32','int32','int32','float32','float32','string']
 
   def __init__(self, *args, **kwds):
     """
@@ -31,7 +33,7 @@ string text
     changes.  You cannot mix in-order arguments and keyword arguments.
 
     The available fields are:
-       oldX,oldY,newX,newY,oldAngle,newAngle,destX,destY,text
+       oldX,oldY,newX,newY,oldAngle,newAngle,destX,destY,xc,yc,text
 
     :param args: complete set of field values, in .msg order
     :param kwds: use keyword arguments corresponding to message field names
@@ -56,6 +58,10 @@ string text
         self.destX = 0
       if self.destY is None:
         self.destY = 0
+      if self.xc is None:
+        self.xc = 0.
+      if self.yc is None:
+        self.yc = 0.
       if self.text is None:
         self.text = ''
     else:
@@ -67,6 +73,8 @@ string text
       self.newAngle = 0
       self.destX = 0
       self.destY = 0
+      self.xc = 0.
+      self.yc = 0.
       self.text = ''
 
   def _get_types(self):
@@ -82,7 +90,7 @@ string text
     """
     try:
       _x = self
-      buff.write(_get_struct_8i().pack(_x.oldX, _x.oldY, _x.newX, _x.newY, _x.oldAngle, _x.newAngle, _x.destX, _x.destY))
+      buff.write(_get_struct_8i2f().pack(_x.oldX, _x.oldY, _x.newX, _x.newY, _x.oldAngle, _x.newAngle, _x.destX, _x.destY, _x.xc, _x.yc))
       _x = self.text
       length = len(_x)
       if python3 or type(_x) == unicode:
@@ -101,8 +109,8 @@ string text
       end = 0
       _x = self
       start = end
-      end += 32
-      (_x.oldX, _x.oldY, _x.newX, _x.newY, _x.oldAngle, _x.newAngle, _x.destX, _x.destY,) = _get_struct_8i().unpack(str[start:end])
+      end += 40
+      (_x.oldX, _x.oldY, _x.newX, _x.newY, _x.oldAngle, _x.newAngle, _x.destX, _x.destY, _x.xc, _x.yc,) = _get_struct_8i2f().unpack(str[start:end])
       start = end
       end += 4
       (length,) = _struct_I.unpack(str[start:end])
@@ -125,7 +133,7 @@ string text
     """
     try:
       _x = self
-      buff.write(_get_struct_8i().pack(_x.oldX, _x.oldY, _x.newX, _x.newY, _x.oldAngle, _x.newAngle, _x.destX, _x.destY))
+      buff.write(_get_struct_8i2f().pack(_x.oldX, _x.oldY, _x.newX, _x.newY, _x.oldAngle, _x.newAngle, _x.destX, _x.destY, _x.xc, _x.yc))
       _x = self.text
       length = len(_x)
       if python3 or type(_x) == unicode:
@@ -145,8 +153,8 @@ string text
       end = 0
       _x = self
       start = end
-      end += 32
-      (_x.oldX, _x.oldY, _x.newX, _x.newY, _x.oldAngle, _x.newAngle, _x.destX, _x.destY,) = _get_struct_8i().unpack(str[start:end])
+      end += 40
+      (_x.oldX, _x.oldY, _x.newX, _x.newY, _x.oldAngle, _x.newAngle, _x.destX, _x.destY, _x.xc, _x.yc,) = _get_struct_8i2f().unpack(str[start:end])
       start = end
       end += 4
       (length,) = _struct_I.unpack(str[start:end])
@@ -164,9 +172,9 @@ _struct_I = genpy.struct_I
 def _get_struct_I():
     global _struct_I
     return _struct_I
-_struct_8i = None
-def _get_struct_8i():
-    global _struct_8i
-    if _struct_8i is None:
-        _struct_8i = struct.Struct("<8i")
-    return _struct_8i
+_struct_8i2f = None
+def _get_struct_8i2f():
+    global _struct_8i2f
+    if _struct_8i2f is None:
+        _struct_8i2f = struct.Struct("<8i2f")
+    return _struct_8i2f

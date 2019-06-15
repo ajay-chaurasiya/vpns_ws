@@ -13,7 +13,7 @@
 
 class navigation {
 public:
-    static void positionDetails (int &xo, int &yo, int &xn, int &yn, int &dx, int &dy, int &ao, ros::Publisher &pub);
+    static void positionDetails (int &xo, int &yo, int &xn, int &yn, int &dx, int &dy, int &ao, int &xc, int &yc, ros::Publisher &pub);
 };
 
 

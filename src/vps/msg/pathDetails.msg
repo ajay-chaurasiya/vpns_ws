@@ -6,4 +6,6 @@ int32 oldAngle
 int32 newAngle
 int32 destX
 int32 destY
+float32 xc
+float32 yc
 string text

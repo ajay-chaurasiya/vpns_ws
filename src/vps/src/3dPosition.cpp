@@ -30,10 +30,10 @@ int main(int argc, char** argv)
 {
 //    Initialize RnT matrices to store 'point ot camera', 'camera to world' and 'point to world' coordinates
     float CtoW[4][4], PtoC[4][4];
-    float PtoW[4][4] = { 1,  0,  0,     0.6,
+    float PtoW[4][4] = { 1,  0,  0,     0,
                          0,  1,  0,     0,
-                         0,  0,  1,      0,
-                         0,  0,  0,      1};
+                         0,  0,  1,     0,
+                         0,  0,  0,     1};
 
     /* Initialize a grid to represent map of the envirenment
     Description of the Grid-
@@ -56,10 +56,11 @@ int main(int argc, char** argv)
     ros::NodeHandle n;
     
     // Create a publisher
-    ros::Publisher pub = n.advertise<vps::pathDetails>("navigationDetails", 1);
+    ros::Publisher pub = n.advertise<vps::pathDetails>("navigationDetails", 10);
     
 
-
+    cout << "\n Enter initial position (x,y,z) in metre of AGV in WCS: ";
+    cin >> PtoW[0][3] >> PtoW[1][3] >> PtoW[2][3];
 
     calibration(CtoW, PtoC, PtoW);
 

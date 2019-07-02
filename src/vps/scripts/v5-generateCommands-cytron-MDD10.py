@@ -2,6 +2,7 @@
 
 import rospy
 from navigation.msg import pathDetails
+from time import sleep
 
 import RPi.GPIO as GPIO
 
@@ -29,8 +30,8 @@ def clockwise():
    GPIO.output(05, True)
    GPIO.output(07, True)
    
-   pwm1.ChangeDutyCycle(40)
-   pwm2.ChangeDutyCycle(40)
+   pwm1.ChangeDutyCycle(25)
+   pwm2.ChangeDutyCycle(25)
    
    GPIO.output(11, False)
    GPIO.output(13, True)
@@ -40,8 +41,8 @@ def counterClockwise():
    GPIO.output(05, False)
    GPIO.output(07, True)
    
-   pwm1.ChangeDutyCycle(40)
-   pwm2.ChangeDutyCycle(40)
+   pwm1.ChangeDutyCycle(25)
+   pwm2.ChangeDutyCycle(25)
    
    GPIO.output(11, True)
    GPIO.output(13, True)
@@ -51,22 +52,24 @@ def forward():
    GPIO.output(05, False)
    GPIO.output(07, True)
    
-   pwm1.ChangeDutyCycle(90)
-   pwm2.ChangeDutyCycle(90)
+   pwm1.ChangeDutyCycle(35)
+   pwm2.ChangeDutyCycle(35)
    
    GPIO.output(11, False)
    GPIO.output(13, True)
    return;
 
-def backward():
+def crossTile():
    GPIO.output(05, False)
    GPIO.output(07, True)
    
-   pwm1.ChangeDutyCycle(70)
-   pwm2.ChangeDutyCycle(70)
+   pwm1.ChangeDutyCycle(30)
+   pwm2.ChangeDutyCycle(30)
    
    GPIO.output(11, False)
    GPIO.output(13, True)
+
+   sleep(0.5)
    return;
    
 def right():
@@ -134,10 +137,18 @@ def robot_callback(msg):
    	msg.newAngle = 225
    elif (msg.newX > msg.oldX and msg.newY < msg.oldY):
    	msg.newAngle = 315
+
+   lastAngle = msg.newAngle
+   a = xc%0.6
+   print ('*****************	xc = ', a, xc)
    
    if (msg.oldX == msg.destX and msg.oldY == msg.destY):
    	print ('Destination reached, Stop!')
 	halt()
+   elif ((xc%0.6)<=0.04 or (yc%0.6)<=0.04):
+	crossTile()
+	halt()
+ 
    else:
 	   # Conditional loop to check the direction of robot of target and rectify it
 	   if (abs(msg.newAngle - msg.oldAngle) >= 10):
@@ -163,7 +174,8 @@ def robot_callback(msg):
 			print ('Moving towards destination.')
 		   	
 		   	if (msg.newAngle == 0):
-		   		
+		   		print ('Positive X direction')
+		   		lastAngle = msg.newAngle
 		   		if (((yc - yn) >= 0.03) and (xn > xc)):
 		   		   right()
 		   		   print ('Right')
@@ -176,6 +188,7 @@ def robot_callback(msg):
 		   		
 		   	elif (msg.newAngle == 180):
 		   		print ('Negative X direction')
+		   		lastAngle = msg.newAngle
 		   		if (((yc - yn) >= 0.03) and (xc > xn)):
 		   		   left()
 		   		   print ('Left')
@@ -188,6 +201,7 @@ def robot_callback(msg):
 		   		
 		   	elif (msg.newAngle == 90):
 		   		print ('Positive Y direction')
+		   		lastAngle = msg.newAngle
 		   		if (((xc - xn) >= 0.03) and (yn > yc)):
 		   		   left()
 		   		   print ('Left')
@@ -200,6 +214,7 @@ def robot_callback(msg):
 		   		
 		   	elif (msg.newAngle == 270):
 		   		print ('Negative Y direction')
+		   		lastAngle = msg.newAngle
 		   		if (((xc - xn) >= 0.03) and (yc > yn)):
 		   		   right()
 		   		   print ('Right')

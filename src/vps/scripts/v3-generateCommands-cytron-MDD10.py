@@ -108,6 +108,26 @@ def halt():
 
 # Run our code in a loop until node is shutdown
 def robot_callback(msg):
+	
+   def correctAngle():
+# Conditional loop to check the direction of robot of target and rectify it
+	if (abs(msg.newAngle - msg.oldAngle) < 10):
+		print ('oldAngle = ', msg.oldAngle) 
+		if (msg.oldAngle > msg.newAngle):
+			if ((msg.oldAngle - msg.newAngle) <= 180):
+				print('Rotate CW \n')
+				clockwise()
+			elif ((msg.oldAngle - msg.newAngle) > 180):
+				print ('Rotate CCW \n')
+				counterClockwise()
+		if (msg.newAngle > msg.oldAngle):
+			if ((msg.newAngle - msg.oldAngle) <= 180):
+				print ('Rotate CCW \n')
+				counterClockwise()
+			elif ((msg.newAngle - msg.oldAngle) > 180):
+				print ('Rotate CW \n')
+				clockwise()
+			return;
 
    print ('robot_callback function called')
    print ('Destination (dx,dy) = ', msg.destX, msg.destY)
@@ -134,94 +154,84 @@ def robot_callback(msg):
    	msg.newAngle = 225
    elif (msg.newX > msg.oldX and msg.newY < msg.oldY):
    	msg.newAngle = 315
+  
    
    if (msg.oldX == msg.destX and msg.oldY == msg.destY):
    	print ('Destination reached, Stop!')
 	halt()
    else:
-	   # Conditional loop to check the direction of robot of target and rectify it
-	   if (abs(msg.newAngle - msg.oldAngle) >= 10):
-	   	print ('oldAngle = ', msg.oldAngle) 
-	   	if (msg.oldAngle > msg.newAngle):
-	   		if ((msg.oldAngle - msg.newAngle) <= 180):
-	   			print('Rotate CW \n')
-	   			clockwise()
-	   		elif ((msg.oldAngle - msg.newAngle) > 180):
-	   			print ('Rotate CCW \n')
-	   			counterClockwise()
-	   	if (msg.newAngle > msg.oldAngle):
-	   		if ((msg.newAngle - msg.oldAngle) <= 180):
-	   			print ('Rotate CCW \n')
-	   			counterClockwise()
-	   		elif ((msg.newAngle - msg.oldAngle) > 180):
-	   			print ('Rotate CW \n')
-	   			clockwise()
-	   			
-	   elif (abs(msg.newAngle - msg.oldAngle) < 10):
-	   	# Conditional loop to check if robot has reached destination else move the robot to reach
-		if (msg.oldX != msg.destX or msg.oldY != msg.destY):
-			print ('Moving towards destination.')
-		   	
-		   	if (msg.newAngle == 0):
-		   		
-		   		if (((yc - yn) >= 0.03) and (xn > xc)):
-		   		   right()
-		   		   print ('Right')
-		   		elif (((yn - yc) >= 0.03) and (xn > xc)):
-		   		   left()
-		   		   print ('Left')
-		   		else:
-		   		   forward()
-		   		   print ('Forward')
-		   		
-		   	elif (msg.newAngle == 180):
-		   		print ('Negative X direction')
-		   		if (((yc - yn) >= 0.03) and (xc > xn)):
-		   		   left()
-		   		   print ('Left')
-		   		elif (((yn - yc) >= 0.03) and (xc > xn)):
-		   		   right()
-		   		   print ('Right')
-		   		else:
-		   		   forward()
-		   		   print ('Forward')
-		   		
-		   	elif (msg.newAngle == 90):
-		   		print ('Positive Y direction')
-		   		if (((xc - xn) >= 0.03) and (yn > yc)):
-		   		   left()
-		   		   print ('Left')
-		   		elif (((xn - xc) >= 0.03) and (yn > yc)):
-		   		   right()
-		   		   print ('Right')
-		   		else:
-		   		   forward()
-		   		   print ('Forward')
-		   		
-		   	elif (msg.newAngle == 270):
-		   		print ('Negative Y direction')
-		   		if (((xc - xn) >= 0.03) and (yc > yn)):
-		   		   right()
-		   		   print ('Right')
-		   		elif (((xn - xc) >= 0.03) and (yc > yn)):
-		   		   left()
-		   		   print ('Left')
-		   		else:
-		   		   forward()
-		   		   print ('Forward')
-		   		
-		   	elif (msg.newAngle == 45):
-		   		print ('Positive X Positive Y direction')
-		   		forward()
-		   	elif (msg.newAngle == 135):
-		   		print ('Negative X Positive Y direction')
-		   		forward()
-		   	elif (msg.newAngle == 225):
-		   		print ('Negative X Negative Y direction')
-		   		forward()
-		   	elif (msg.newAngle == 315):
-		   		print ('Positive X Negative Y direction')
-		   		forward()
+   	# Conditional loop to check if robot has reached destination else move the robot to reach
+	if (msg.oldX != msg.destX or msg.oldY != msg.destY):
+		print ('Moving towards destination.')
+	   	
+	   	if (msg.newAngle == 0):
+	   		
+	   		if (((yc - yn) >= 0.03) and (xn > xc)):
+	   		   right()
+	   		   print ('Right')
+	   		elif (((yn - yc) >= 0.03) and (xn > xc)):
+	   		   left()
+	   		   print ('Left')
+	   		elif (abs(msg.newAngle - msg.oldAngle) >= 10):
+	   		   correctAngle()
+	   		else:
+	   		   forward()
+	   		   print ('Forward')
+	   		
+	   	elif (msg.newAngle == 180):
+	   		print ('Negative X direction')
+	   		if (((yc - yn) >= 0.03) and (xc > xn)):
+	   		   left()
+	   		   print ('Left')
+	   		elif (((yn - yc) >= 0.03) and (xc > xn)):
+	   		   right()
+	   		   print ('Right')
+	   		elif (abs(msg.newAngle - msg.oldAngle) >= 10):
+	   		   correctAngle()
+	   		else:
+	   		   forward()
+	   		   print ('Forward')
+	   		
+	   	elif (msg.newAngle == 90):
+	   		print ('Positive Y direction')
+	   		if (((xc - xn) >= 0.03) and (yn > yc)):
+	   		   left()
+	   		   print ('Left')
+	   		elif (((xn - xc) >= 0.03) and (yn > yc)):
+	   		   right()
+	   		   print ('Right')
+	   		elif (abs(msg.newAngle - msg.oldAngle) >= 10):
+	   		   correctAngle()
+	   		else:
+	   		   forward()
+	   		   print ('Forward')
+	   		
+	   	elif (msg.newAngle == 270):
+	   		print ('Negative Y direction')
+	   		if (((xc - xn) >= 0.03) and (yc > yn)):
+	   		   right()
+	   		   print ('Right')
+	   		elif (((xn - xc) >= 0.03) and (yc > yn)):
+	   		   left()
+	   		   print ('Left')
+	   		elif (abs(msg.newAngle - msg.oldAngle) >= 10):
+	   		   correctAngle()
+	   		else:
+	   		   forward()
+	   		   print ('Forward')
+	   		
+	   	elif (msg.newAngle == 45):
+	   		print ('Positive X Positive Y direction')
+	   		forward()
+	   	elif (msg.newAngle == 135):
+	   		print ('Negative X Positive Y direction')
+	   		forward()
+	   	elif (msg.newAngle == 225):
+	   		print ('Negative X Negative Y direction')
+	   		forward()
+	   	elif (msg.newAngle == 315):
+	   		print ('Positive X Negative Y direction')
+	   		forward()
   			
 
 # Initialize the node

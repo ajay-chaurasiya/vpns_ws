@@ -31,7 +31,7 @@ using namespace cv;
     {
         aruco::drawDetectedMarkers(imageCopy, corners, ids);
 
-        aruco::estimatePoseSingleMarkers(corners, 0.2, cameraMatrix, distCoeffs, rvecs, tvecs);
+        aruco::estimatePoseSingleMarkers(corners, 0.2495, cameraMatrix, distCoeffs, rvecs, tvecs);
 
         for (int i = 0; i < ids.size(); i++)
             aruco::drawAxis(imageCopy, cameraMatrix, distCoeffs, rvecs[i], tvecs[i], 0.1);

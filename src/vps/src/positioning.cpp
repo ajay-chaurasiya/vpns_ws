@@ -29,7 +29,7 @@ positioning::positioning(float PtoW[4][4], float CtoW[4][4], float PtoC [4][4], 
     int frameCount = 15;    //capture.get(CV_CAP_PROP_FPS);
 
     cout << "Width: " << frameWidth << "Height: " << frameHeight << "FPS: " << frameCount;
-    VideoWriter video("positioning-navigation-6-june-2019-08.avi", CV_FOURCC('M','J','P','G'), frameCount, Size(frameWidth, frameHeight));
+    VideoWriter video("0.2495x0.2495-aruco-positioning-navigation-20062019-test-05.avi", CV_FOURCC('M','J','P','G'), frameCount, Size(frameWidth, frameHeight));
 
     compute::initializeToZero(PtoW);
 
@@ -137,7 +137,7 @@ positioning::positioning(float PtoW[4][4], float CtoW[4][4], float PtoC [4][4], 
          {
              // Release the camera
              capture.release();
-//             video.release();
+             video.release();
              destroyAllWindows();
              break;
          }
